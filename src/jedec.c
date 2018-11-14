@@ -239,10 +239,10 @@ int MakeJedecBuff(struct ActBuffer buff, int galtype, struct Config *cfg)
             return(-1);
 
 	/*** make header of JEDEC file ***/
-    if (AddString(&buff, (UBYTE *)"Used Program:   GALasm 2.1\n"))
+    if (AddString(&buff, (UBYTE *)"Used Program:   GALasm 2.2\n"))
         return(-1);
 
-    if (AddString(&buff, (UBYTE *)"GAL-Assembler:  GALasm 2.1\n"))
+    if (AddString(&buff, (UBYTE *)"GAL-Assembler:  GALasm 2.2\n"))
         return(-1);
 
     if (galtype == GAL16V8)

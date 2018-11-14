@@ -2319,7 +2319,7 @@ int main(int argc, char *argv[])
 
 	p = argv[1];
 
-	printf( "GALasm 2.1, Portable GAL Assembler\n"
+	printf( "GALasm 2.2, Portable GAL Assembler\n"
 			"Copyright (c) 1998-2003 Alessandro Zummo. All Rights Reserved\n"
 			"Original sources Copyright (c) 1991-96 Christian Habermann\n\n");
 
