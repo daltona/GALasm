@@ -340,7 +340,10 @@ int MakeJedecBuff(struct ActBuffer buff, int galtype, struct Config *cfg)
                 return(-1);
         }
         else
+        {
+            if (galtype == GAL16V8) Jedec.GALPT[m] = 0; /* Disable product term for less noise and low power */
             bitnum = bitnum2;
+        }
     }
 
     if (!flag)
