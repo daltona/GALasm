@@ -141,6 +141,13 @@ int AddByte(struct ActBuffer *buff, UBYTE code)
 {
     struct  Buffer  *mybuff;
 
+    /* Insert \r before \n */
+    if (code=='\n')
+    {
+        if (AddByte(buff, '\r'))
+            return(-1);
+    }
+
     if ((buff->Entry) < (buff->BuffEnd))    /* is the current address within */
     {                                       /* the buffer ?                  */
         *buff->Entry++ = code;              /* the fill in the byte */
