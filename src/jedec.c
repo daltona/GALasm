@@ -246,60 +246,60 @@ int MakeJedecBuff(struct ActBuffer buff, int galtype, struct Config *cfg)
 
     if (galtype == GAL16V8)
     {
-        if (AddString(&buff, (UBYTE *)"Device:         GAL16V8\n\n"))
+        if (AddString(&buff, (UBYTE *)"Device:         GAL16V8\n*\n"))
             return(-1);
     }
 
     if (galtype == GAL20V8)
     {
-        if (AddString(&buff, (UBYTE *)"Device:         GAL20V8\n\n"))
+        if (AddString(&buff, (UBYTE *)"Device:         GAL20V8\n*\n"))
             return(-1);
     }
 
     if (galtype == GAL20RA10)
     {
-        if (AddString(&buff, (UBYTE *)"Device:         GAL20RA10\n\n"))
+        if (AddString(&buff, (UBYTE *)"Device:         GAL20RA10\n*\n"))
             return(-1);
     }
 
     if (galtype == GAL22V10)
     {
-        if (AddString(&buff, (UBYTE *)"Device:         GAL22V10\n\n"))
+        if (AddString(&buff, (UBYTE *)"Device:         GAL22V10\n*\n"))
             return(-1);
     }
 
 
-    if (AddString(&buff, (UBYTE *)"*F0\n"))     /* default value of fuses */
+    if (AddString(&buff, (UBYTE *)"F0*\n"))     /* default value of fuses */
         return(-1);
 
     if (cfg->JedecSecBit)
     {   /* Security-Bit */
-        if (AddString(&buff, (UBYTE *)"*G1\n"))
+        if (AddString(&buff, (UBYTE *)"G1*\n"))
             return(-1);
     }
     else
-        if (AddString(&buff, (UBYTE *)"*G0\n"))
+        if (AddString(&buff, (UBYTE *)"G0*\n"))
             return(-1);
 
 
     if (galtype == GAL16V8)                       /* number of fuses */
-        if (AddString(&buff, (UBYTE *)"*QF2194\n"))
+        if (AddString(&buff, (UBYTE *)"QF2194*\n"))
             return(-1);
 
     if (galtype == GAL20V8)
-        if (AddString(&buff, (UBYTE *)"*QF2706\n"))
+        if (AddString(&buff, (UBYTE *)"QF2706*\n"))
             return(-1);
       
     if (galtype == GAL20RA10)
-        if (AddString(&buff, (UBYTE *)"*QF3274\n"))
+        if (AddString(&buff, (UBYTE *)"QF3274*\n"))
             return(-1);
 
     if (galtype == GAL22V10)
-        if (AddString(&buff, (UBYTE *)"*QF5892\n"))
+        if (AddString(&buff, (UBYTE *)"QF5892*\n"))
             return(-1);
 
 	/*** make fuse-matrix ***/
-    if (AddString(&buff, "*NOTE: AND/OR fuses-matrix\n"))
+    if (AddString(&buff, "NOTE: AND/OR fuses-matrix*\n"))
         return(-1);
 
     bitnum = bitnum2 = flag = 0;
@@ -323,7 +323,7 @@ int MakeJedecBuff(struct ActBuffer buff, int galtype, struct Config *cfg)
 
         if (flag)
         {
-            sprintf((char *)&mystrng[0], "*L%04d ", bitnum);
+            sprintf((char *)&mystrng[0], "L%04d ", bitnum);
 
             if (AddString(&buff, (UBYTE *)&mystrng[0]))
                 return(-1);
@@ -335,7 +335,7 @@ int MakeJedecBuff(struct ActBuffer buff, int galtype, struct Config *cfg)
                 bitnum++;
             }
 
-            if (AddByte(&buff, (UBYTE)'\n'))
+            if (AddString(&buff, (UBYTE *)"*\n"))
                 return(-1);
         }
         else
@@ -349,9 +349,9 @@ int MakeJedecBuff(struct ActBuffer buff, int galtype, struct Config *cfg)
         bitnum = bitnum2;
 
                                                 /*** XOR-Bits ***/
-    if (AddString(&buff, "*NOTE: XOR-Bits\n"))
+    if (AddString(&buff, "NOTE: XOR-Bits*\n"))
         return(-1);
-    sprintf((char *)&mystrng[0], "*L%04d ", bitnum);    /* add fuse adr. */
+    sprintf((char *)&mystrng[0], "L%04d ", bitnum);    /* add fuse adr. */
     if (AddString(&buff, (UBYTE *)&mystrng[0]))
         return(-1);
 
@@ -369,14 +369,13 @@ int MakeJedecBuff(struct ActBuffer buff, int galtype, struct Config *cfg)
         }
     }
 
-    if (AddByte(&buff, (UBYTE)'\n'))
+    if (AddString(&buff, (UBYTE *)"*\n"))
         return(-1);
-
 
                                                 /*** Signature ***/
-    if (AddString(&buff, "*NOTE: User Electronic Signature (UES) fuses\n"))
+    if (AddString(&buff, "NOTE: User Electronic Signature (UES) fuses*\n"))
         return(-1);
-    sprintf((char *)&mystrng[0], "*L%04d ", bitnum);
+    sprintf((char *)&mystrng[0], "L%04d ", bitnum);
 
     if (AddString(&buff, (UBYTE *)&mystrng[0]))
         return(-1);
@@ -388,17 +387,16 @@ int MakeJedecBuff(struct ActBuffer buff, int galtype, struct Config *cfg)
         bitnum++;
     }
 
-    if (AddByte(&buff, (UBYTE)'\n'))
+    if (AddString(&buff, (UBYTE *)"*\n"))
         return(-1);
-
 
 
     if ((galtype == GAL16V8) || (galtype == GAL20V8))
     {
                                                         /*** AC1-Bits ***/
-        if (AddString(&buff, "*NOTE: AC1-Bits\n"))
+        if (AddString(&buff, "NOTE: AC1-Bits*\n"))
             return(-1);
-        sprintf((char *)&mystrng[0], "*L%04d ", bitnum);
+        sprintf((char *)&mystrng[0], "L%04d ", bitnum);
         if (AddString(&buff, (UBYTE *)&mystrng[0]))
             return(-1);
 
@@ -409,14 +407,13 @@ int MakeJedecBuff(struct ActBuffer buff, int galtype, struct Config *cfg)
             bitnum++;
         }
 
-        if (AddByte(&buff, (UBYTE)'\n'))
+        if (AddString(&buff, (UBYTE *)"*\n"))
             return(-1);
-
 
                                                         /*** PT-Bits ***/
-        if (AddString(&buff, "*NOTE: Product Term Disable (PTD) fuses\n"))
+        if (AddString(&buff, "NOTE: Product Term Disable (PTD) fuses*\n"))
             return(-1);
-        sprintf((char *)&mystrng[0], "*L%04d ", bitnum);
+        sprintf((char *)&mystrng[0], "L%04d ", bitnum);
         if (AddString(&buff, (UBYTE *)&mystrng[0]))
             return(-1);
 
@@ -427,14 +424,13 @@ int MakeJedecBuff(struct ActBuffer buff, int galtype, struct Config *cfg)
             bitnum++;
         }
 
-        if (AddByte(&buff, (UBYTE)'\n'))
+        if (AddString(&buff, (UBYTE *)"*\n"))
             return(-1);
-
 
                                                         /*** SYN-Bit ***/
-        if (AddString(&buff, "*NOTE: SYN-Bit\n"))
+        if (AddString(&buff, "NOTE: SYN-Bit*\n"))
             return(-1);
-        sprintf((char *)&mystrng[0], "*L%04d ", bitnum);
+        sprintf((char *)&mystrng[0], "L%04d ", bitnum);
 
         if (AddString(&buff, (UBYTE *)&mystrng[0]))
             return(-1);
@@ -442,16 +438,16 @@ int MakeJedecBuff(struct ActBuffer buff, int galtype, struct Config *cfg)
         if (AddByte(&buff, (UBYTE)(Jedec.GALSYN + '0')))
             return(-1);
 
-        if (AddByte(&buff, (UBYTE)'\n'))
+        if (AddString(&buff, (UBYTE *)"*\n"))
             return(-1);
 
         bitnum++;
 
 
                                                         /*** AC0-Bit ***/
-        if (AddString(&buff, "*NOTE: AC0-Bit\n"))
+        if (AddString(&buff, "NOTE: AC0-Bit*\n"))
             return(-1);
-        sprintf((char *)&mystrng[0], "*L%04d ", bitnum);
+        sprintf((char *)&mystrng[0], "L%04d ", bitnum);
 
         if (AddString(&buff, (UBYTE *)&mystrng[0]))
             return(-1);
@@ -459,7 +455,7 @@ int MakeJedecBuff(struct ActBuffer buff, int galtype, struct Config *cfg)
         if (AddByte(&buff, (UBYTE)(Jedec.GALAC0 + '0')))
             return(-1);
 
-        if (AddByte(&buff, (UBYTE)'\n'))
+        if (AddString(&buff, (UBYTE *)"*\n"))
             return(-1);
 
     }
@@ -468,16 +464,11 @@ int MakeJedecBuff(struct ActBuffer buff, int galtype, struct Config *cfg)
 
 /*  if (cfg->JedecFuseChk)
     {*/                                   /* add fuse-checksum */
-        sprintf((char *)&mystrng[0], "*C%04x\n", FuseChecksum(galtype));
+        sprintf((char *)&mystrng[0], "C%04x*\n", FuseChecksum(galtype));
 
         if (AddString(&buff, (UBYTE *)&mystrng[0]))
             return(-1);
 /*    }*/
-
-
-    if (AddString(&buff, (UBYTE *)"*\n"))                 /* closing '*' */
-        return(-1);
-
 
     if(!cfg->JedecFuseChk)
     {
