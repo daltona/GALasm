@@ -26,7 +26,7 @@
 
 int FileChecksum(struct ActBuffer buff)
 {
-    int checksum;
+    unsigned int checksum;
 
 
     checksum = 0;
@@ -43,7 +43,7 @@ int FileChecksum(struct ActBuffer buff)
 
     checksum += 0x3;                              /* add <ETX> too */
 
-    return(checksum);                             /* ready */
+    return(checksum % 65535);                             /* ready */
 }
 
 
@@ -63,7 +63,8 @@ int FileChecksum(struct ActBuffer buff)
 
 int FuseChecksum(int galtype)
 {
-    int     checksum, byte, n;
+    unsigned int checksum;
+    int     byte, n;
     BYTE    *ptr, *ptrXOR, *ptrS1;
 
 
@@ -174,7 +175,7 @@ int FuseChecksum(int galtype)
 
     checksum += byte;
 
-    return(checksum);
+    return(checksum % 65535);
 }
 
 
